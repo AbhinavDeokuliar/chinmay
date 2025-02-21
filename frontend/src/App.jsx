@@ -23,8 +23,13 @@ function App() {
       // Validate JSON
       const parsedJson = JSON.parse(jsonInput)
       
-      // Call API
-      const result = await axios.post(`${import.meta.env.VITE_API_URL}/bfhl`, parsedJson)
+      // Format request body according to API expectations
+      const requestBody = {
+        data: Array.isArray(parsedJson.data) ? parsedJson.data : []
+      }
+      
+      // Use environment variable for API URL
+      const result = await axios.post(import.meta.env.VITE_API_URL + '/bfhl', requestBody)
       const data = result.data
       setResponse({
         numbers: data.numbers,
@@ -33,7 +38,11 @@ function App() {
       })
       setShowDropdown(true)
     } catch (err) {
-      setError(err instanceof SyntaxError ? 'Invalid JSON format' : 'API Error')
+      setError(
+        err instanceof SyntaxError 
+          ? 'Invalid JSON format' 
+          : err.response?.data?.message || 'API Error'
+      )
       setShowDropdown(false)
     }
   }
