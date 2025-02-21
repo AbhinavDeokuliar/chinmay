@@ -1,16 +1,15 @@
 :root {
-  font-family: 'Inter var', system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.9);
-  background-color: #0a0a0a;
-
+  --font-family: 'Inter var', system-ui, -apple-system, sans-serif;
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --background-gradient-dark: linear-gradient(135deg, #0f0f0f 0%, #1a1045 100%);
+  --background-gradient-light: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: #0a0a0a;
 }
 
 a {
@@ -22,17 +21,25 @@ a:hover {
   color: #535bf2;
 }
 
+/* Critical rendering path styles */
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1045 100%);
+  font-family: var(--font-family);
+  line-height: 1.6;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--background-gradient-dark);
 }
 
 h1 {
   font-size: 2.8em;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 1.5rem;
 }
@@ -56,6 +63,22 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Add content-visibility for better performance */
+.response > div {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #1a1a1a;
@@ -68,11 +91,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
   body {
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    background: var(--background-gradient-light);
   }
   h1 {
     background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }
