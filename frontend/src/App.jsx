@@ -24,7 +24,7 @@ function App() {
       const parsedJson = JSON.parse(jsonInput)
       
       // Call API
-      const result = await axios.post('http://localhost:3000/bfhl', parsedJson)
+      const result = await axios.post(`${import.meta.env.VITE_API_URL}/bfhl`, parsedJson)
       const data = result.data
       setResponse({
         numbers: data.numbers,
